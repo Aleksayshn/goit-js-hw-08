@@ -1,6 +1,6 @@
 import throttle from 'lodash.throttle';
 import localStorageService from './localStorage.js';
-const {setInLocalStorage, getFromLocalStorage, removeFromLocalStorage} = localStorageService;
+const { setInLocalStorage, getFromLocalStorage, removeFromLocalStorage } = localStorageService;
 
 const feedbackFormEl = document.querySelector('.feedback-form');
 const userInfo = {};
@@ -32,9 +32,13 @@ const onContactFormFieldChange = e => {
 
 const onContactFormSubmit = e => {
   e.preventDefault();
+  
+  console.log(userInfo);
 
   feedbackFormEl.reset();
+
   removeFromLocalStorage('userFeedback');
+
 };
 
 feedbackFormEl.addEventListener('input', throttle(onContactFormFieldChange, 500));
