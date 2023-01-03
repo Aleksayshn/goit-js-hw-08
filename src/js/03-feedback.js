@@ -3,7 +3,7 @@ import localStorageService from './localStorage.js';
 const { setInLocalStorage, getFromLocalStorage, removeFromLocalStorage } = localStorageService;
 
 const feedbackFormEl = document.querySelector('.feedback-form');
-const userInfo = {};
+const userInfoFeedback = {};
 
 const fillFeedbackFormFields = () => {
   const feedbackInfoFromLS = getFromLocalStorage('userFeedback');
@@ -25,15 +25,15 @@ const onContactFormFieldChange = e => {
   const fieldValue = target.value;
   const fieldName = target.name;
 
-  userInfo[fieldName] = fieldValue;
+  userInfoFeedback[fieldName] = fieldValue;
 
-  setInLocalStorage('userFeedback', userInfo);
+  setInLocalStorage('userFeedback', userInfoFeedback);
 };
 
 const onContactFormSubmit = e => {
   e.preventDefault();
-  
-  console.log(userInfo);
+
+  console.log(userInfoFeedback);
 
   feedbackFormEl.reset();
 
