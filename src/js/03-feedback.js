@@ -1,5 +1,5 @@
 import throttle from 'lodash.throttle';
-import localStorageService from './localstorage.js';
+import localStorageService from './localStorage.js';
 const {setInLocalStorage, getFromLocalStorage, removeFromLocalStorage} = localStorageService;
 
 const feedbackFormEl = document.querySelector('.feedback-form');
