@@ -3,44 +3,50 @@ import localStorageService from './localStorage.js';
 const { setInLocalStorage, getFromLocalStorage, removeFromLocalStorage } = localStorageService;
 
 const feedbackFormEl = document.querySelector('.feedback-form');
-const userInfoFeedback = {};
+feedbackFormEl.addEventListener('input', throttle(onFormFieldChange, 500));
+feedbackFormEl.addEventListener('submit', onContactFormSubmit);
 
-const fillFeedbackFormFields = () => {
-  const feedbackInfoFromLS = getFromLocalStorage('userFeedback');
+let userFeedback = getFromLocalStorage('userFeedback') || {};
 
-  if (feedbackInfoFromLS === undefined) {
-    return;
-  }
+function onFormFieldChange(e) {
+  const { target } = e;
 
-  for (const prop in feedbackInfoFromLS) {
-    feedbackFormEl.elements[prop].value = feedbackInfoFromLS[prop];
-  }
+  const userWriteValue = target.value;
+  userFeedback[target.name] = userWriteValue;
+
+  setInLocalStorage('userFeedback', userFeedback);
 };
 
 fillFeedbackFormFields();
 
-const onContactFormFieldChange = e => {
-  const { target } = e;
+function fillFeedbackFormFields() {
 
-  const fieldValue = target.value;
-  const fieldName = target.name;
+  const feedbackFromLS = getFromLocalStorage('userFeedback');
 
-  userInfoFeedback[fieldName] = fieldValue;
-
-  setInLocalStorage('userFeedback', userInfoFeedback);
+  for (const prop in feedbackFromLS) {
+    feedbackFormEl.elements[prop].value = feedbackFromLS[prop];
+  }
 };
 
-const onContactFormSubmit = e => {
-  e.preventDefault();
-
-  console.log(userInfoFeedback);
-
-  feedbackFormEl.reset();
-
+function onContactFormSubmit(e) {
+  const {
+    elements: {
+      email,
+      message,
+    }
+  } = e.target;
   removeFromLocalStorage('userFeedback');
 
+  e.preventDefault();
+
+  if (email.value === "" || message.value === "") {
+    alert('All values must be filled')
+    return
+  }
+  console.log(userFeedback);
+  feedbackFormEl.reset();
+  userFeedback = {};
 };
 
-feedbackFormEl.addEventListener('input', throttle(onContactFormFieldChange, 500));
-feedbackFormEl.addEventListener('submit', onContactFormSubmit);
+
 

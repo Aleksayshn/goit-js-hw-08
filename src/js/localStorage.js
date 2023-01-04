@@ -8,19 +8,13 @@ const setInLocalStorage = (key, value) => {
 };
 
 const getFromLocalStorage = key => {
-  try {
     const serializedState = localStorage.getItem(key);
 
     return serializedState === null ? undefined : JSON.parse(serializedState);
-  } catch (error) {
-  }
 };
 
 const removeFromLocalStorage = key => {
-  try {
-    localStorage.removeItem(key);
-  } catch (error) {
-  }
+localStorage.removeItem(key);
 };
 
 export default {
