@@ -2,29 +2,31 @@ import throttle from 'lodash.throttle';
 import localStorageService from './localStorage.js';
 const { setInLocalStorage, getFromLocalStorage, removeFromLocalStorage } = localStorageService;
 
-const feedbackFormEl = document.querySelector('.feedback-form');
-feedbackFormEl.addEventListener('input', throttle(onFormFieldChange, 500));
-feedbackFormEl.addEventListener('submit', onContactFormSubmit);
+const formEl = document.querySelector('.feedback-form');
+formEl.addEventListener('input', throttle(onFormChange, 500));
+formEl.addEventListener('submit', onContactFormSubmit);
 
-let userFeedback = getFromLocalStorage('userFeedback') || {};
+const STORAGE_KEY = 'feedback';
 
-function onFormFieldChange(e) {
+let formData = getFromLocalStorage(STORAGE_KEY) || {};
+
+function onFormChange(e) {
   const { target } = e;
 
   const userWriteValue = target.value;
-  userFeedback[target.name] = userWriteValue;
+  formData[target.name] = userWriteValue;
 
-  setInLocalStorage('userFeedback', userFeedback);
+  setInLocalStorage(STORAGE_KEY, formData);
 };
 
-fillFeedbackFormFields();
+fillFieldForm();
 
-function fillFeedbackFormFields() {
+function fillFieldForm() {
 
-  const feedbackFromLS = getFromLocalStorage('userFeedback');
+  const feedbackFromLS = getFromLocalStorage(STORAGE_KEY);
 
   for (const prop in feedbackFromLS) {
-    feedbackFormEl.elements[prop].value = feedbackFromLS[prop];
+    formEl.elements[prop].value = feedbackFromLS[prop];
   }
 };
 
@@ -43,9 +45,9 @@ function onContactFormSubmit(e) {
     alert('All values must be filled')
     return
   }
-  console.log(userFeedback);
-  feedbackFormEl.reset();
-  userFeedback = {};
+  console.log(formData);
+  formEl.reset();
+  formData = {};
 };
 
 

@@ -9,7 +9,6 @@ const setInLocalStorage = (key, value) => {
 
 const getFromLocalStorage = key => {
     const serializedState = localStorage.getItem(key);
-
     return serializedState === null ? undefined : JSON.parse(serializedState);
 };
 
