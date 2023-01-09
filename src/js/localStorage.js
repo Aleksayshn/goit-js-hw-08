@@ -8,16 +8,16 @@ const setInLocalStorage = (key, value) => {
 };
 
 const getFromLocalStorage = key => {
-    const serializedState = localStorage.getItem(key);
-    return serializedState === null ? undefined : JSON.parse(serializedState);
+  const serializedState = localStorage.getItem(key);
+  return serializedState === null ? undefined : JSON.parse(serializedState);
 };
 
 const removeFromLocalStorage = key => {
-localStorage.removeItem(key);
+  localStorage.removeItem(key);
 };
 
 export default {
-setInLocalStorage,
-getFromLocalStorage,
-removeFromLocalStorage,
+  setInLocalStorage,
+  getFromLocalStorage,
+  removeFromLocalStorage,
 };
